@@ -1,0 +1,22 @@
+// Solo los íconos que usa la app (cada import pesa en el celular).
+import '@ui5/webcomponents-icons/dist/home.js';
+import '@ui5/webcomponents-icons/dist/product.js';
+import '@ui5/webcomponents-icons/dist/cart.js';
+import '@ui5/webcomponents-icons/dist/customer.js';
+import '@ui5/webcomponents-icons/dist/menu2.js';
+import '@ui5/webcomponents-icons/dist/nav-back.js';
+import '@ui5/webcomponents-icons/dist/add.js';
+import '@ui5/webcomponents-icons/dist/edit.js';
+import '@ui5/webcomponents-icons/dist/search.js';
+import '@ui5/webcomponents-icons/dist/decline.js';
+import '@ui5/webcomponents-icons/dist/delete.js';
+import '@ui5/webcomponents-icons/dist/slim-arrow-right.js';
+import '@ui5/webcomponents-icons/dist/action-settings.js';
+import '@ui5/webcomponents-icons/dist/log.js';
+import '@ui5/webcomponents-icons/dist/money-bills.js';
+import '@ui5/webcomponents-icons/dist/sales-order.js';
+import '@ui5/webcomponents-icons/dist/receipt.js';
+import '@ui5/webcomponents-icons/dist/excel-attachment.js';
+import '@ui5/webcomponents-icons/dist/inventory.js';
+import '@ui5/webcomponents-icons/dist/email.js';
+import '@ui5/webcomponents-icons/dist/employee.js';

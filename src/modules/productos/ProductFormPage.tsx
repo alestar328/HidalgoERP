@@ -6,8 +6,9 @@ import { SelectField, TextField } from '../../components/Fields';
 import { useToast } from '../../components/Toast';
 import { formatQty, parseNumber } from '../../lib/format';
 import { errorMessage } from '../../lib/errors';
-import { UNITS, UNIT_LABEL, type Product, type Unit } from '../../lib/types';
-import { useShop } from '../auth/AuthProvider';
+import { SOURCE_LABEL, UNITS, UNIT_LABEL, type Product, type ProductSource, type Unit } from '../../lib/types';
+import { useModules } from '../ModulesProvider';
+import { useShop } from '../../features/auth/AuthProvider';
 import {
   createProduct,
   ensureCategory,
@@ -36,6 +37,7 @@ interface FormState {
   cost: string;
   minStock: string;
   initialStock: string;
+  source: ProductSource;
 }
 
 const EMPTY: FormState = {
@@ -53,6 +55,7 @@ const EMPTY: FormState = {
   cost: '',
   minStock: '',
   initialStock: '',
+  source: 'purchase',
 };
 
 const str = (n: number | null | undefined) => (n == null ? '' : String(n));
@@ -72,6 +75,7 @@ function fromProduct(p: Product): FormState {
     wholesaleMinQty: str(p.wholesale_min_qty),
     cost: str(p.cost),
     minStock: p.min_stock ? str(p.min_stock) : '',
+    source: p.source,
   };
 }
 
@@ -86,6 +90,7 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
   const invalidate = useInvalidateProducts();
   const products = useProducts();
   const categories = useCategories();
+  const { isActive } = useModules();
 
   const editing = !variantOf && id ? products.data?.find((p) => p.id === id) : undefined;
   const parent = variantOf && id ? products.data?.find((p) => p.id === id) : undefined;
@@ -177,6 +182,7 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
         wholesale_min_qty: wholesaleMin,
         min_stock: minStock!,
         active: editing?.active ?? true,
+        source: form.source,
         cost,
       },
       initialStock: initialStock!,
@@ -201,8 +207,8 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
       if (editing) {
         await updateProduct(orgId, editing.id, valid.input);
         if (hasVariants) {
-          const { name, category_id, unit } = valid.input;
-          await syncVariants(editing.id, { name, category_id, unit });
+          const { name, category_id, unit, source } = valid.input;
+          await syncVariants(editing.id, { name, category_id, unit, source });
         }
         targetId = editing.id;
       } else {
@@ -286,6 +292,14 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
                 onChange={(v) => set('unit', v as Unit)}
                 options={UNITS.map((u) => ({ value: u, label: UNIT_LABEL[u] }))}
               />
+              {(isActive('produccion') || form.source === 'production') && (
+                <SelectField
+                  label="Al reponer, se consigue por"
+                  value={form.source}
+                  onChange={(v) => set('source', v as ProductSource)}
+                  options={(Object.keys(SOURCE_LABEL) as ProductSource[]).map((k) => ({ value: k, label: SOURCE_LABEL[k] }))}
+                />
+              )}
             </>
           )}
         </section>
@@ -301,14 +315,16 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
             error={errors.retailPrice}
             required
           />
-          <div className="switch-row">
-            <span id="lbl-mayor">Tiene precio por mayor</span>
-            <Switch
-              accessibleNameRef="lbl-mayor"
-              checked={form.hasWholesale}
-              onChange={(e) => set('hasWholesale', e.target.checked)}
-            />
-          </div>
+          {(isActive('precios') || form.hasWholesale) && (
+            <div className="switch-row">
+              <span id="lbl-mayor">Tiene precio por mayor</span>
+              <Switch
+                accessibleNameRef="lbl-mayor"
+                checked={form.hasWholesale}
+                onChange={(e) => set('hasWholesale', e.target.checked)}
+              />
+            </div>
+          )}
           {form.hasWholesale && (
             <div className="two-col">
               <TextField
@@ -358,7 +374,9 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
                 hint={
                   isVariant
                     ? 'Cuántas tienes ahora de esta variante.'
-                    : 'Cuántos tienes ahora. Si el producto tendrá tallas o colores, déjalo en 0 y agrégalos después.'
+                    : isActive('variantes')
+                      ? 'Cuántos tienes ahora. Si el producto tendrá tallas o colores, déjalo en 0 y agrégalos después.'
+                      : 'Cuántos tienes ahora.'
                 }
                 error={errors.initialStock}
               />

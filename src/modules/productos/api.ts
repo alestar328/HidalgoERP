@@ -2,8 +2,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { uuid } from '../../lib/uuid';
 import { normalizeText } from '../../lib/normalize';
-import type { Category, Product, StockMovement, StockMovementType, Unit } from '../../lib/types';
-import { useShop } from '../auth/AuthProvider';
+import type { Category, Product, ProductSource, StockMovement, StockMovementType, Unit } from '../../lib/types';
+import { useShop } from '../../features/auth/AuthProvider';
 
 const PAGE = 1000;
 
@@ -106,6 +106,7 @@ export interface ProductInput {
   wholesale_min_qty: number | null;
   min_stock: number;
   active: boolean;
+  source: ProductSource;
   cost: number | null;
 }
 
@@ -139,10 +140,10 @@ export async function updateProduct(orgId: string, id: string, input: ProductInp
   await saveCost(orgId, id, cost);
 }
 
-/** Las variantes comparten nombre, categoría y unidad con su producto principal. */
+/** Las variantes comparten nombre, categoría, unidad y origen con su producto principal. */
 export async function syncVariants(
   parentId: string,
-  fields: Pick<ProductInput, 'name' | 'category_id' | 'unit'>,
+  fields: Pick<ProductInput, 'name' | 'category_id' | 'unit' | 'source'>,
 ): Promise<void> {
   const { error } = await supabase.from('products').update(fields).eq('parent_id', parentId);
   if (error) throw error;

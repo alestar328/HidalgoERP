@@ -1,4 +1,13 @@
+import type { BusinessType } from '../modules/catalog';
+import type { ProductSource } from '../domain/reorder';
+
 export type Role = 'owner' | 'seller';
+export type { BusinessType, ProductSource };
+
+export const SOURCE_LABEL: Record<ProductSource, string> = {
+  purchase: 'Compra a proveedor',
+  production: 'Producción propia',
+};
 
 export const UNITS = ['unidad', 'docena', 'caja', 'kg', 'litro'] as const;
 export type Unit = (typeof UNITS)[number];
@@ -34,6 +43,7 @@ export interface Organization {
   name: string;
   phone: string | null;
   address: string | null;
+  business_type: BusinessType;
 }
 
 export interface Category {
@@ -57,6 +67,8 @@ export interface Product {
   stock: number;
   min_stock: number;
   active: boolean;
+  /** De dónde sale al reponer: compra o producción propia. */
+  source: ProductSource;
   /** Solo llega para el dueño (RLS). */
   cost: number | null;
 }

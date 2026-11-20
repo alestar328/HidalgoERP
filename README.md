@@ -3,7 +3,7 @@
 ERP ligero para pequeños comercios de Lima: productos y stock, ventas, caja diaria y fiados, pensado para el celular.
 El nombre es provisional y se cambia en un solo lugar: `src/config/app.ts`.
 
-**Estado:** fase (a) terminada — ingreso, negocio (multi-tenant), roles, productos, variantes y stock.
+**Estado:** fase (a) terminada — ingreso, negocio (multi-tenant), roles, productos, variantes y stock — y la app ya está organizada en **módulos** con un launchpad al estilo Fiori (ver «Módulos» más abajo).
 Ventas, caja, fiados, dashboard, importación de Excel y modo sin conexión llegan en las fases (b) a (g). El avance está en `DEVLOG.md`.
 
 ## Requisitos
@@ -20,7 +20,7 @@ npm install
 ## 2. Crear el proyecto en Supabase
 
 1. En supabase.com → **New project**. Elige un nombre, una contraseña de base de datos (guárdala) y la región **South America (São Paulo)**, la más cercana a Lima.
-2. **Aplicar las migraciones.** Opción simple: abre **SQL Editor**, pega el contenido de cada archivo de `supabase/migrations/` **en orden** (`0001_core.sql`, luego `0002_products_stock.sql`) y pulsa **Run** en cada uno.
+2. **Aplicar las migraciones.** Opción simple: abre **SQL Editor**, pega el contenido de cada archivo de `supabase/migrations/` **en orden** (`0001_core.sql`, `0002_products_stock.sql`, `0003_modules.sql`) y pulsa **Run** en cada uno.
    Opción con CLI (útil más adelante, cuando haya más migraciones):
    ```bash
    npx supabase login
@@ -89,8 +89,11 @@ supabase/seed.sql     datos de ejemplo
 src/config            nombre de la app, moneda y feature flags
 src/domain            reglas de negocio puras, con tests
 src/lib               cliente de Supabase, formato, errores
-src/features          pantallas por módulo (auth, products, dashboard, settings…)
+src/modules           un módulo por carpeta (productos, reposicion, admin…) + catálogo y registro
+src/shell             launchpad, tiles y control de acceso por módulo
+src/features          lo que no es módulo: ingreso, onboarding, "Más", datos del negocio
 src/components        piezas compartidas (barra inferior, encabezado, campos)
+docs/diseno           maquetas de referencia (launchpad, venta, inventario, reposición…)
 tests                 tests de dominio y de base de datos
 ```
 
@@ -101,3 +104,28 @@ Reglas de seguridad que conviene conocer:
 - **El costo vive en `product_costs`**, tabla aparte solo para el dueño, porque RLS filtra filas y no columnas.
 - **El stock nunca se escribe desde la app.** La app no tiene permiso sobre `products.stock`: solo cambia mediante `stock_movements`, que se insertan desde funciones (`adjust_stock`, y luego ventas) dentro de una transacción.
 - **Un producto con variantes** (tallas, colores) no lleva stock propio: lo lleva cada variante.
+
+## Módulos
+
+La app es un **producto estándar** para distintos rubros. Cada negocio enciende solo lo que usa y el inicio
+(launchpad) muestra solo esas apps, agrupadas en espacios: Vender, Inventario, Abastecimiento, Clientes y cobros,
+Análisis y Administración.
+
+- **Núcleo, siempre activo:** productos y stock, ventas, caja, dashboard y administración.
+- **Opcionales:** pedidos, fiados, precio por mayor, variantes, stock mínimo y reposición, proveedores y compras,
+  producción y confección, escaneo de código de barras y venta por peso.
+- **Paquetes por rubro** (`general`, `bodega`, `limpieza`, `fruteria`, `iluminacion`, `ropa`): al crear el negocio se elige
+  el rubro y vienen encendidos sus módulos. El dueño los cambia en **Más › Módulos activos**.
+
+Dónde está cada cosa:
+
+- `src/modules/catalog.ts`: la lista de módulos, sus dependencias y los paquetes por rubro (sin React, con tests).
+- `src/modules/resolve.ts`: qué queda activo (paquete + decisiones del dueño) y qué se enciende o apaga en cadena.
+- `src/modules/<id>/module.tsx`: lo que aporta cada módulo a la interfaz (tiles con indicador, rutas, acceso en la barra inferior).
+- `src/modules/registry.ts`: une todo; TypeScript obliga a que cada módulo del catálogo tenga su entrada.
+- En la base: `organizations.business_type` y `organization_modules` (solo las decisiones del dueño; sin fila = lo que trae el
+  paquete). Se escriben con las RPC `set_modules` y `set_business_type`.
+
+**Agregar un módulo:** una entrada en `catalog.ts`, su carpeta en `src/modules/<id>` con `module.tsx` y su línea en
+`registry.ts`. **Agregar un rubro:** una entrada en `BUSINESS_TYPES` y su valor en el enum `business_type` (nueva migración);
+un test verifica que ambos coincidan.

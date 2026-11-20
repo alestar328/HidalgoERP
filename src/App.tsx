@@ -4,16 +4,26 @@ import { APP } from './config/app';
 import { isSupabaseConfigured } from './lib/supabase';
 import { errorMessage } from './lib/errors';
 import { AppShell } from './components/AppShell';
-import { ComingSoon } from './components/ComingSoon';
 import { useAuth } from './features/auth/AuthProvider';
 import { LoginPage } from './features/auth/LoginPage';
 import { OnboardingPage } from './features/auth/OnboardingPage';
-import { HomePage } from './features/dashboard/HomePage';
-import { ProductsPage } from './features/products/ProductsPage';
-import { ProductDetailPage } from './features/products/ProductDetailPage';
-import { ProductFormPage } from './features/products/ProductFormPage';
 import { MorePage } from './features/settings/MorePage';
-import { SettingsPage } from './features/settings/SettingsPage';
+import { MODULE_IDS } from './modules/catalog';
+import { ModulesProvider } from './modules/ModulesProvider';
+import { MODULE_UI } from './modules/registry';
+import { Launchpad } from './shell/Launchpad';
+import { ModuleGate } from './shell/ModuleGate';
+
+/** Todas las rutas de todos los módulos; ModuleGate decide si se puede entrar según el negocio. */
+const moduleRoutes = MODULE_IDS.flatMap((id) =>
+  MODULE_UI[id].routes.map((r) => (
+    <Route
+      key={`${id}:${r.path}`}
+      path={r.path}
+      element={<ModuleGate modules={[id, ...(r.requires ?? [])]}>{r.element}</ModuleGate>}
+    />
+  )),
+);
 
 function SetupNeeded() {
   return (
@@ -71,24 +81,15 @@ export function App() {
   if (!membership) return <OnboardingPage />;
 
   return (
-    <Routes>
-      <Route element={<AppShell />}>
-        <Route index element={<HomePage />} />
-        <Route path="productos" element={<ProductsPage />} />
-        <Route path="productos/nuevo" element={<ProductFormPage />} />
-        <Route path="productos/:id" element={<ProductDetailPage />} />
-        <Route path="productos/:id/editar" element={<ProductFormPage />} />
-        <Route path="productos/:id/variante" element={<ProductFormPage variantOf />} />
-        <Route path="vender" element={<ComingSoon title="Vender" phase="la fase (b): ventas y pedidos" />} />
-        <Route path="ventas" element={<ComingSoon title="Ventas" phase="la fase (b): ventas y pedidos" back="/mas" />} />
-        <Route path="pedidos" element={<ComingSoon title="Pedidos" phase="la fase (b): ventas y pedidos" back="/mas" />} />
-        <Route path="caja" element={<ComingSoon title="Caja" phase="la fase (c): caja diaria" back="/mas" />} />
-        <Route path="fiados" element={<ComingSoon title="Fiados" phase="la fase (d): fiados y cobros" />} />
-        <Route path="importar" element={<ComingSoon title="Importar Excel" phase="la fase (f): importación" back="/mas" />} />
-        <Route path="mas" element={<MorePage />} />
-        <Route path="ajustes" element={<SettingsPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Route>
-    </Routes>
+    <ModulesProvider>
+      <Routes>
+        <Route element={<AppShell />}>
+          <Route index element={<Launchpad />} />
+          {moduleRoutes}
+          <Route path="mas" element={<MorePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </ModulesProvider>
   );
 }

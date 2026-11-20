@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<title>Módulos y paquetes por rubro</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F6F7}
+a{color:#0064D9}a:hover{color:#0050AE}
+.card{background:#FFFFFF;border-radius:16px;padding:20px;box-shadow:0 0 0 1px rgba(34,53,72,.08);display:flex;flex-direction:column;gap:12px;box-sizing:border-box;min-width:0}
+.mod{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #EEF0F2}
+.mn{margin:0;font-size:15px;font-weight:600}
+.md{margin:2px 0 0;font-size:13px;color:#556B82;line-height:1.4}
+.req{margin:4px 0 0;font-size:12px;color:#31475E}
+.sw{appearance:none;-webkit-appearance:none;width:48px;height:28px;border-radius:14px;background:#B5C0CC;position:relative;cursor:pointer;margin:8px 0;flex-shrink:0}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:11px;background:#FFFFFF;transition:left .15s}
+.sw:checked{background:#0064D9}
+.sw:checked::after{left:23px}
+.sw:disabled{background:#9DBFE8;cursor:not-allowed}
+.preset{height:44px;padding:0 16px;border-radius:22px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.node{background:#FFFFFF;border-radius:12px;padding:10px 14px;box-shadow:0 0 0 1px rgba(34,53,72,.12);font-size:13px;font-weight:600;text-align:center;line-height:1.3}
+.node span{display:block;font-weight:400;color:#556B82;font-size:12px}
+.arr{color:#556B82;font-size:18px;font-weight:600}
+th{font-size:12px;font-weight:600;color:#556B82;text-align:center;padding:10px 8px;border-bottom:1px solid #E1E4E8;background:#FAFBFC;vertical-align:bottom}
+td{font-size:14px;padding:10px 8px;border-bottom:1px solid #EEF0F2;text-align:center}
+td:first-child,th:first-child{text-align:left;padding-left:16px}
+.on{display:inline-flex;width:22px;height:22px;border-radius:11px;background:#0064D9;align-items:center;justify-content:center}
+.off{color:#8396A8}
+</style>
+</helmet>
+<div style="min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1D2D3E">
+
+  <header style="background: #FFFFFF; box-shadow: 0 1px 0 #E1E4E8; padding: 10px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+    <a href="Main.dc.html" aria-label="Volver al launchpad" style="width: 40px; height: 40px; border-radius: 10px; background: #0064D9; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; text-decoration: none">MP</a>
+    <nav aria-label="Ruta" style="font-size: 14px; display: flex; gap: 8px; align-items: center; color: #556B82">
+      <a href="Main.dc.html">Inicio</a><span aria-hidden="true">/</span><span>Administración</span><span aria-hidden="true">/</span><span aria-current="page" style="color: #1D2D3E; font-weight: 600">Módulos activos</span>
+    </nav>
+  </header>
+
+  <main style="max-width: 1360px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
+
+    <section style="display: flex; flex-direction: column; gap: 14px">
+      <div>
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700">Módulos del negocio</h1>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #556B82; max-width: 720px">Un solo producto para todos los rubros. El núcleo siempre está; cada negocio enciende solo lo que usa y el launchpad muestra solo esas apps.</p>
+      </div>
+      <div role="group" aria-label="Empezar desde un paquete por rubro" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+        <span style="font-size: 13px; font-weight: 600; color: #556B82; margin-right: 4px">Paquete por rubro:</span>
+        <button type="button" class="preset" aria-pressed="false" style="border: 1px solid #C9D1DA; background: #FFFFFF; color: #1D2D3E">Bodega</button>
+        <button type="button" class="preset" aria-pressed="false" style="border: 1px solid #C9D1DA; background: #FFFFFF; color: #1D2D3E">Limpieza y ferretería</button>
+        <button type="button" class="preset" aria-pressed="false" style="border: 1px solid #C9D1DA; background: #FFFFFF; color: #1D2D3E">Frutería</button>
+        <button type="button" class="preset" aria-pressed="false" style="border: 1px solid #C9D1DA; background: #FFFFFF; color: #1D2D3E">Iluminación</button>
+        <button type="button" class="preset" aria-pressed="true" style="border: 2px solid #0064D9; background: #EBF4FF; color: #0050AE">Ropa y confección</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="flujo" style="background: #F0F6FD; box-shadow: none">
+      <h2 id="flujo" style="margin: 0; font-size: 15px; font-weight: 600">Cómo se conectan los módulos (paquete Ropa y confección)</h2>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+        <div class="node">Proveedores y compras<span>Materia prima</span></div>
+        <span class="arr" aria-hidden="true">→</span>
+        <div class="node">Producción y confección<span>Órdenes de taller</span></div>
+        <span class="arr" aria-hidden="true">→</span>
+        <div class="node" style="box-shadow: 0 0 0 2px #0064D9">Productos y stock<span>Entradas y salidas</span></div>
+        <span class="arr" aria-hidden="true">←</span>
+        <div class="node">Ventas<span>Colegio y público</span></div>
+        <span class="arr" aria-hidden="true">→</span>
+        <div class="node">Dashboard<span>Ventas y stock real</span></div>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: #31475E">Stock mínimo y reposición vigila el stock y, cuando una prenda baja de su mínimo, propone una orden de compra o de confección.</p>
+    </section>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+      <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+        <section class="card" aria-labelledby="nucleo">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+            <h2 id="nucleo" style="margin: 0; font-size: 16px; font-weight: 600">Núcleo</h2>
+            <span style="font-size: 12px; font-weight: 600; color: #31475E; background: #EFF1F2; border-radius: 8px; padding: 4px 8px">Siempre activo</span>
+          </div>
+          <div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Productos y stock</p><p class="md">Catálogo, unidades, movimientos de stock y ajustes con motivo.</p></div><input class="sw" type="checkbox" role="switch" checked disabled aria-label="Productos y stock (núcleo)"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Ventas y notas de venta</p><p class="md">Carrito rápido, pagos con Yape, Plin, efectivo o tarjeta, envío por WhatsApp.</p></div><input class="sw" type="checkbox" role="switch" checked disabled aria-label="Ventas (núcleo)"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Caja diaria</p><p class="md">Apertura, ingresos y egresos, cierre con diferencia.</p></div><input class="sw" type="checkbox" role="switch" checked disabled aria-label="Caja diaria (núcleo)"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Dashboard</p><p class="md">Ventas, stock real y alertas en un vistazo.</p></div><input class="sw" type="checkbox" role="switch" checked disabled aria-label="Dashboard (núcleo)"></div>
+            <div class="mod" style="border-bottom: 0"><div style="flex: 1"><p class="mn">Administración</p><p class="md">Usuarios y roles, importar Excel, datos del negocio.</p></div><input class="sw" type="checkbox" role="switch" checked disabled aria-label="Administración (núcleo)"></div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="opc">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+            <h2 id="opc" style="margin: 0; font-size: 16px; font-weight: 600">Módulos opcionales</h2>
+            <span style="font-size: 13px; color: #556B82">7 de 9 activos</span>
+          </div>
+          <div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Pedidos</p><p class="md">Ventas pendientes de entrega, por ejemplo llegadas por WhatsApp.</p><p class="req">Requiere: Ventas</p></div><input class="sw" type="checkbox" role="switch" checked aria-label="Pedidos"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Fiados y cobros</p><p class="md">Saldo por cliente, abonos y recordatorio por WhatsApp.</p><p class="req">Requiere: Ventas</p></div><input class="sw" type="checkbox" role="switch" checked aria-label="Fiados y cobros"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Listas de precios</p><p class="md">Precio público, por mayor o institucional (colegio).</p><p class="req">Requiere: Productos y stock</p></div><input class="sw" type="checkbox" role="switch" checked aria-label="Listas de precios"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Variantes</p><p class="md">Talla, color o modelo como hijos de un producto.</p><p class="req">Requiere: Productos y stock</p></div><input class="sw" type="checkbox" role="switch" checked aria-label="Variantes"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Stock mínimo y reposición</p><p class="md">Alertas y órdenes sugeridas cuando un producto baja de su mínimo.</p><p class="req">Requiere: Productos y stock</p></div><input class="sw" type="checkbox" role="switch" checked aria-label="Stock mínimo y reposición"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Proveedores y compras</p><p class="md">Órdenes de compra; al recibirlas, entra el stock.</p><p class="req">Requiere: Productos y stock</p></div><input class="sw" type="checkbox" role="switch" checked aria-label="Proveedores y compras"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Producción y confección</p><p class="md">Órdenes de taller y bordado; al terminar, entran las prendas al stock.</p><p class="req">Requiere: Proveedores y compras</p></div><input class="sw" type="checkbox" role="switch" checked aria-label="Producción y confección"></div>
+            <div class="mod"><div style="flex: 1"><p class="mn">Escaneo de código de barras</p><p class="md">Agregar productos a la venta con la cámara del celular.</p><p class="req">Requiere: Ventas</p></div><input class="sw" type="checkbox" role="switch" aria-label="Escaneo de código de barras"></div>
+            <div class="mod" style="border-bottom: 0"><div style="flex: 1"><p class="mn">Venta por peso</p><p class="md">Precio por kg y balanza, para fruterías y bodegas.</p><p class="req">Requiere: Ventas</p></div><input class="sw" type="checkbox" role="switch" aria-label="Venta por peso"></div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #F5F6F7; border-radius: 12px">
+            <span style="font-size: 12px; font-weight: 700; color: #31475E; background: #E1E4E8; border-radius: 6px; padding: 3px 8px">Próximamente</span>
+            <span style="font-size: 13px; color: #31475E">Facturación electrónica SUNAT (boleta y factura) mediante un proveedor externo.</span>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" aria-labelledby="matriz" style="flex: 1 1 520px; padding: 20px 0 8px">
+        <div style="padding: 0 20px">
+          <h2 id="matriz" style="margin: 0; font-size: 16px; font-weight: 600">Paquetes por rubro</h2>
+          <p style="margin: 2px 0 0; font-size: 13px; color: #556B82">Lo que viene encendido al crear el negocio. Todo se puede cambiar después.</p>
+        </div>
+        <div style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse">
+            <thead>
+              <tr>
+                <th scope="col">Módulo</th>
+                <th scope="col">Bodega</th>
+                <th scope="col">Limpieza</th>
+                <th scope="col">Frutería</th>
+                <th scope="col">Ilumin.</th>
+                <th scope="col" style="color: #0050AE">Ropa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ matrix }}" as="m" hint-placeholder-count="9">
+                <tr>
+                  <th scope="row" style="background: transparent; border-bottom: 1px solid #EEF0F2; font-size: 14px; font-weight: 500; color: #1D2D3E; text-align: left; padding: 10px 8px 10px 16px">{{ m.name }}</th>
+                  <sc-for list="{{ m.cells }}" as="c" hint-placeholder-count="5">
+                    <td>
+                      <sc-if value="{{ c.on }}" hint-placeholder-val="{{ true }}">
+                        <span class="on" role="img" aria-label="Incluido"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" style="stroke: #FFFFFF; fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><path d="M5 12l5 5L20 7"></path></svg></span>
+                      </sc-if>
+                      <sc-if value="{{ c.off }}" hint-placeholder-val="{{ false }}">
+                        <span class="off" role="img" aria-label="No incluido">—</span>
+                      </sc-if>
+                    </td>
+                  </sc-for>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin: 0; padding: 4px 20px 12px; font-size: 13px; color: #556B82">El núcleo está en todos los paquetes. Un rubro nuevo es solo otra columna: no se programa una app distinta.</p>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var rows = [
+      ['Pedidos', [1, 1, 1, 1, 1]],
+      ['Fiados y cobros', [1, 1, 1, 0, 1]],
+      ['Listas de precios', [0, 1, 1, 1, 1]],
+      ['Variantes', [0, 0, 0, 1, 1]],
+      ['Stock mínimo y reposición', [1, 1, 1, 1, 1]],
+      ['Proveedores y compras', [1, 1, 1, 1, 1]],
+      ['Producción y confección', [0, 0, 0, 0, 1]],
+      ['Escaneo de código', [1, 1, 0, 1, 0]],
+      ['Venta por peso (kg)', [1, 0, 1, 0, 0]]
+    ];
+    return {
+      matrix: rows.map(function (r) {
+        return { name: r[0], cells: r[1].map(function (v) { return { on: v === 1, off: v !== 1 }; }) };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

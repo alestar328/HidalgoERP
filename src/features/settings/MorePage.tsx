@@ -11,12 +11,12 @@ interface Item {
   soon?: boolean;
 }
 
+// Las apps de cada módulo están en Inicio; aquí solo lo de la cuenta y el negocio.
 const ITEMS: Item[] = [
-  { to: '/caja', icon: 'money-bills', label: 'Caja', soon: true },
-  { to: '/pedidos', icon: 'sales-order', label: 'Pedidos', soon: true },
-  { to: '/ventas', icon: 'receipt', label: 'Ventas', soon: true },
-  { to: '/importar', icon: 'excel-attachment', label: 'Importar Excel', ownerOnly: true, soon: true },
+  { to: '/', icon: 'home', label: 'Todas las apps' },
+  { to: '/modulos', icon: 'puzzle', label: 'Módulos activos', ownerOnly: true },
   { to: '/ajustes', icon: 'action-settings', label: 'Mi negocio y vendedores', ownerOnly: true },
+  { to: '/importar', icon: 'excel-attachment', label: 'Importar Excel', ownerOnly: true, soon: true },
 ];
 
 export function MorePage() {

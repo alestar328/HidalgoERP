@@ -7,14 +7,16 @@ import { stockStatus, worstStatus } from '../../domain/stock';
 import { formatDateTime, formatMoney, formatQty } from '../../lib/format';
 import { errorMessage } from '../../lib/errors';
 import { MOVEMENT_LABEL, UNIT_LABEL, UNIT_SHORT } from '../../lib/types';
-import { useShop } from '../auth/AuthProvider';
+import { useShop } from '../../features/auth/AuthProvider';
 import { setProductActive, useCategories, useInvalidateProducts, useMovements, useProducts } from './api';
 import { StockDialog, type StockMode } from './StockDialog';
 import { StockLabel } from './StockLabel';
+import { useModules } from '../ModulesProvider';
 
 export function ProductDetailPage() {
   const { id } = useParams();
   const { isOwner } = useShop();
+  const { isActive } = useModules();
   const navigate = useNavigate();
   const toast = useToast();
   const invalidate = useInvalidateProducts();
@@ -177,7 +179,7 @@ export function ProductDetailPage() {
           </dl>
         </section>
 
-        {!product.parent_id && (hasVariants || isOwner) && (
+        {!product.parent_id && (hasVariants || (isOwner && isActive('variantes'))) && (
           <section className="stack" style={{ gap: '0.5rem' }}>
             <p className="section-title">Variantes (talla, color)</p>
             {hasVariants && (
@@ -207,6 +209,7 @@ export function ProductDetailPage() {
               </div>
             )}
             {isOwner &&
+              isActive('variantes') &&
               (hasVariants || product.stock === 0 ? (
                 <Button icon="add" className="btn-block" onClick={() => navigate(`/productos/${product.id}/variante`)}>
                   Agregar variante

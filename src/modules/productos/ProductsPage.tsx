@@ -7,7 +7,7 @@ import { groupProducts } from '../../domain/stock';
 import { formatMoney } from '../../lib/format';
 import { matchesSearch } from '../../lib/normalize';
 import { errorMessage } from '../../lib/errors';
-import { useShop } from '../auth/AuthProvider';
+import { useShop } from '../../features/auth/AuthProvider';
 import { useCategories, useProducts } from './api';
 import { StockLabel } from './StockLabel';
 

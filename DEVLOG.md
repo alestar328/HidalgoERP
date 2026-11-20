@@ -42,3 +42,12 @@
 - Causa: en GitHub (`alestar328/HidalgoERP`, rama `main`) solo está commiteado `README.md`; todo el código sigue sin añadir a git (`git status` lo muestra como untracked). Vercel desplegó un repo sin app.
 - Hecho: añadido `vercel.json` (framework vite + rewrite de todas las rutas a `/index.html`, necesario por `BrowserRouter`). `npm run build` pasa en local.
 - Pendiente del usuario: commit + push de todo el código; en Vercel poner `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` (Settings → Environment Variables) y redesplegar; en Supabase añadir la URL de Vercel en Auth → URL Configuration para el enlace mágico.
+
+## 2026-11-17 — Despliegue en Vercel: variables y Supabase Auth
+
+- Código ya commiteado y subido (`d08e2b0 App Mi Puesto: fase (a)`); el 404 dejó de salir y la app carga en Vercel.
+- Síntoma siguiente: la app mostraba su pantalla "Crea el archivo .env.local…". Causa: `.env.local` no se sube a git y Vercel no tenía las variables.
+- Hecho por el usuario (lo confirma él, no verificado desde aquí): `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` puestas en Vercel → Settings → Environment Variables. Vite las incrusta al compilar: hace falta **Redeploy** tras cambiarlas.
+- Supabase Auth → URL Configuration: usar el dominio estable `https://hidalgoerp.vercel.app` (Site URL) y `https://hidalgoerp.vercel.app/**` (Redirect URLs), más `http://localhost:5173/**` para local. No usar la URL del deployment (`hidalgoerp-<hash>-ales-projects-76f6085a.vercel.app`): cambia en cada push.
+- Ojo: `LoginPage.tsx` usa `emailRedirectTo: window.location.origin`, así que hay que entrar siempre por `hidalgoerp.vercel.app` para que el enlace mágico vuelva a una URL permitida.
+- NO verificado: ingreso completo con enlace mágico en producción. Falta que el usuario lo pruebe.

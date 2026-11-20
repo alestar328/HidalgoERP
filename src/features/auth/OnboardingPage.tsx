@@ -5,12 +5,14 @@ import { supabase } from '../../lib/supabase';
 import { errorMessage } from '../../lib/errors';
 import { TextField } from '../../components/Fields';
 import { useAuth } from './AuthProvider';
+import { BUSINESS_TYPES, BUSINESS_TYPE_IDS, type BusinessType } from '../../modules/catalog';
 
 export function OnboardingPage() {
   const { user, refreshMembership, signOut } = useAuth();
   const [name, setName] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [phone, setPhone] = useState('');
+  const [businessType, setBusinessType] = useState<BusinessType>('general');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,6 +28,7 @@ export function OnboardingPage() {
       p_name: name,
       p_phone: phone,
       p_display_name: displayName,
+      p_business_type: businessType,
     });
     if (err) {
       setBusy(false);
@@ -58,6 +61,25 @@ export function OnboardingPage() {
           required
           maxlength={80}
         />
+        <fieldset className="field fieldset">
+          <legend>¿Qué vendes?</legend>
+          <div className="chips chips--wrap" role="group" aria-label="Tipo de negocio">
+            {BUSINESS_TYPE_IDS.map((t) => (
+              <button
+                key={t}
+                type="button"
+                className="chip"
+                aria-pressed={businessType === t}
+                onClick={() => setBusinessType(t)}
+              >
+                {BUSINESS_TYPES[t].title}
+              </button>
+            ))}
+          </div>
+          <span className="field-hint">
+            {BUSINESS_TYPES[businessType].example}. Activa las apps que corresponden; puedes cambiarlo después.
+          </span>
+        </fieldset>
         <TextField label="Tu nombre" value={displayName} onChange={setDisplayName} placeholder="Ej.: Rosa" maxlength={60} />
         <TextField
           label="Celular del negocio"

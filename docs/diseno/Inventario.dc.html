@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<title>Inventario: stock por producto</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F6F7}
+a{color:#0064D9}a:hover{color:#0050AE}
+.btn{height:40px;padding:0 16px;border-radius:10px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;box-sizing:border-box}
+.fl{display:flex;flex-direction:column;gap:4px;flex:1 1 180px;min-width:0}
+.fl label{font-size:12px;font-weight:600;color:#556B82}
+.fl select,.fl input{height:40px;border:1px solid #C9D1DA;border-radius:10px;padding:0 12px;font:inherit;font-size:14px;color:#1D2D3E;background:#FFFFFF}
+th{font-size:12px;font-weight:600;color:#556B82;text-align:left;padding:12px 16px;border-bottom:1px solid #E1E4E8;white-space:nowrap;background:#FAFBFC}
+td{font-size:14px;padding:12px 16px;border-bottom:1px solid #EEF0F2;white-space:nowrap;vertical-align:middle}
+tr:hover td{background:#F7FAFF}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;font-size:12px;font-weight:600}
+meter{width:72px;height:8px}
+</style>
+</helmet>
+<div style="min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1D2D3E">
+
+  <header style="background: #FFFFFF; box-shadow: 0 1px 0 #E1E4E8; padding: 10px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+    <a href="Main.dc.html" aria-label="Volver al launchpad" style="width: 40px; height: 40px; border-radius: 10px; background: #0064D9; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; text-decoration: none">MP</a>
+    <nav aria-label="Ruta" style="font-size: 14px; display: flex; gap: 8px; align-items: center; color: #556B82">
+      <a href="Main.dc.html">Inicio</a><span aria-hidden="true">/</span><span aria-current="page" style="color: #1D2D3E; font-weight: 600">Productos y stock</span>
+    </nav>
+  </header>
+
+  <main style="max-width: 1360px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
+
+    <section style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 16px">
+      <div>
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700">Productos y stock</h1>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #556B82">Cada venta descuenta stock aquí. Las entradas llegan de compras y órdenes de confección.</p>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap">
+        <a href="#importar" class="btn" style="border: 1px solid #C9D1DA; color: #1D2D3E; background: #FFFFFF">Importar Excel</a>
+        <a href="#ajuste" class="btn" style="border: 1px solid #C9D1DA; color: #1D2D3E; background: #FFFFFF">Ajustar stock</a>
+        <a href="#nuevo" class="btn" style="background: #0064D9; color: #FFFFFF; border: 0">+ Nuevo producto</a>
+      </div>
+    </section>
+
+    <section aria-label="Resumen" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+      <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; box-shadow: 0 0 0 1px rgba(34,53,72,.08)">
+        <p style="margin: 0; font-size: 13px; color: #556B82">Productos activos</p>
+        <p style="margin: 6px 0 0; font-size: 28px; font-weight: 600">186</p>
+      </div>
+      <a href="Reposicion.dc.html" style="background: #FFFFFF; border-radius: 14px; padding: 16px; box-shadow: 0 0 0 1px rgba(34,53,72,.08); text-decoration: none; color: #1D2D3E">
+        <p style="margin: 0; font-size: 13px; color: #556B82">Bajo stock mínimo</p>
+        <p style="margin: 6px 0 0; font-size: 28px; font-weight: 600; color: #B44F00">5</p>
+      </a>
+      <a href="Reposicion.dc.html" style="background: #FFFFFF; border-radius: 14px; padding: 16px; box-shadow: 0 0 0 1px rgba(34,53,72,.08); text-decoration: none; color: #1D2D3E">
+        <p style="margin: 0; font-size: 13px; color: #556B82">Agotados</p>
+        <p style="margin: 6px 0 0; font-size: 28px; font-weight: 600; color: #AA0808">2</p>
+      </a>
+      <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; box-shadow: 0 0 0 1px rgba(34,53,72,.08)">
+        <p style="margin: 0; font-size: 13px; color: #556B82">Valor del stock al costo <span style="font-size: 11px; font-weight: 600; color: #556B82; background: #EFF1F2; border-radius: 6px; padding: 2px 6px; margin-left: 4px">Solo dueño</span></p>
+        <p style="margin: 6px 0 0; font-size: 28px; font-weight: 600">S/ 41,260</p>
+      </div>
+    </section>
+
+    <section aria-label="Filtros" style="background: #FFFFFF; border-radius: 14px; padding: 16px; box-shadow: 0 0 0 1px rgba(34,53,72,.08); display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end">
+      <div class="fl" style="flex: 2 1 260px"><label for="f-q">Buscar</label><input id="f-q" type="search" placeholder="Nombre, código o talla"></div>
+      <div class="fl"><label for="f-cat">Categoría</label><select id="f-cat"><option>Todas</option><option>Polos</option><option>Buzos</option><option>Chompas</option></select></div>
+      <div class="fl"><label for="f-col">Colegio</label><select id="f-col"><option>Todos</option><option>Colegio A</option><option>Colegio B</option></select></div>
+      <div class="fl"><label for="f-est">Estado de stock</label><select id="f-est"><option>Todos</option><option>Bajo mínimo</option><option>Agotado</option></select></div>
+      <button type="button" class="btn" style="border: 0; background: #EBF4FF; color: #0050AE">Aplicar</button>
+    </section>
+
+    <section aria-labelledby="t-title" style="background: #FFFFFF; border-radius: 14px; box-shadow: 0 0 0 1px rgba(34,53,72,.08); overflow: hidden">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; gap: 12px; flex-wrap: wrap">
+        <h2 id="t-title" style="margin: 0; font-size: 16px; font-weight: 600">Productos (186)</h2>
+        <span style="font-size: 13px; color: #556B82">Variantes por talla agrupadas bajo cada prenda</span>
+      </div>
+      <div style="overflow-x: auto">
+        <table style="width: 100%; border-collapse: collapse">
+          <thead>
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Variante</th>
+              <th scope="col">Colegio</th>
+              <th scope="col" class="num">Stock</th>
+              <th scope="col">Nivel</th>
+              <th scope="col" class="num">Mínimo</th>
+              <th scope="col">Estado</th>
+              <th scope="col" class="num">P. público</th>
+              <th scope="col" class="num">P. colegio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="10">
+              <tr>
+                <td><span style="font-weight: 600">{{ r.name }}</span><br><span style="font-size: 12px; color: #556B82">{{ r.sku }}</span></td>
+                <td>{{ r.variant }}</td>
+                <td>{{ r.school }}</td>
+                <td class="num" style="font-weight: 600">{{ r.stock }}</td>
+                <td><meter min="0" max="{{ r.max }}" low="{{ r.min }}" optimum="{{ r.max }}" value="{{ r.stock }}" aria-label="Nivel de stock">{{ r.stock }}</meter></td>
+                <td class="num">{{ r.min }}</td>
+                <td>
+                  <sc-if value="{{ r.ok }}" hint-placeholder-val="{{ true }}"><span class="chip" style="background: #E5F5EA; color: #256F3A">Disponible</span></sc-if>
+                  <sc-if value="{{ r.low }}" hint-placeholder-val="{{ false }}"><span class="chip" style="background: #FFF3E6; color: #8A3D00">Bajo mínimo</span></sc-if>
+                  <sc-if value="{{ r.out }}" hint-placeholder-val="{{ false }}"><span class="chip" style="background: #FFEAEA; color: #AA0808">Agotado</span></sc-if>
+                </td>
+                <td class="num">S/ {{ r.pub }}</td>
+                <td class="num">S/ {{ r.col }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; font-size: 13px; color: #556B82; flex-wrap: wrap; gap: 8px">
+        <span>Mostrando 10 de 186</span>
+        <button type="button" class="btn" style="border: 1px solid #C9D1DA; background: #FFFFFF; color: #1D2D3E; height: 36px">Cargar más</button>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var data = [
+      ['Polo educación física', 'POL-EF-10', 'Talla 10', 'Colegio A', 14, 10, '25.00', '22.00'],
+      ['Buzo completo', 'BUZ-12', 'Talla 12', 'Colegio A', 6, 8, '95.00', '85.00'],
+      ['Buzo completo', 'BUZ-14', 'Talla 14', 'Colegio A', 0, 6, '95.00', '85.00'],
+      ['Chompa bordada', 'CHO-08', 'Talla 8 · Azul', 'Colegio B', 9, 6, '65.00', '58.00'],
+      ['Chompa bordada', 'CHO-10', 'Talla 10 · Azul', 'Colegio B', 4, 6, '65.00', '58.00'],
+      ['Falda tableada', 'FAL-10', 'Talla 10', 'Colegio B', 3, 5, '48.00', '42.00'],
+      ['Short deportivo', 'SHO-10', 'Talla 10', 'Colegio A', 22, 10, '20.00', '18.00'],
+      ['Camisa blanca manga larga', 'CAM-12', 'Talla 12', 'Todos', 18, 10, '35.00', '32.00'],
+      ['Pantalón de vestir gris', 'PAN-14', 'Talla 14', 'Colegio B', 0, 4, '55.00', '49.00'],
+      ['Corbata con insignia', 'COR-U', 'Única', 'Colegio A', 31, 15, '15.00', '12.00']
+    ];
+    return {
+      rows: data.map(function (d) {
+        return {
+          name: d[0], sku: d[1], variant: d[2], school: d[3], stock: d[4], min: d[5],
+          max: d[5] * 2, pub: d[6], col: d[7],
+          out: d[4] === 0, low: d[4] > 0 && d[4] < d[5], ok: d[4] >= d[5]
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

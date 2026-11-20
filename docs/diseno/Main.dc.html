@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<title>Launchpad Mi Puesto</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F6F7}
+a{color:#0064D9}a:hover{color:#0050AE}
+.tile{box-sizing:border-box;width:176px;height:176px;background:#FFFFFF;border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:#1D2D3E;box-shadow:0 0 0 1px rgba(34,53,72,.08),0 2px 6px rgba(34,53,72,.08);transition:box-shadow .15s}
+.tile:hover{color:#1D2D3E;box-shadow:0 0 0 2px #0064D9,0 4px 12px rgba(34,53,72,.12)}
+.tile:focus-visible{outline:3px solid #0064D9;outline-offset:2px}
+.tile-wide{width:368px}
+.tt{font-size:15px;font-weight:600;line-height:1.3;margin:0}
+.ts{font-size:13px;line-height:1.35;color:#556B82;margin:4px 0 0}
+.tf{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.kpi{font-size:36px;line-height:1;font-weight:500;letter-spacing:-.02em}
+.unit{font-size:13px;color:#556B82;margin-left:4px;font-weight:500}
+.ico{width:28px;height:28px;stroke:#556B82;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.grp{font-size:18px;font-weight:600;color:#1D2D3E;margin:0}
+.tiles{display:flex;flex-wrap:wrap;gap:16px}
+.tab{display:inline-flex;align-items:center;height:44px;padding:0 14px;font-size:14px;font-weight:500;color:#556B82;text-decoration:none;border-bottom:3px solid transparent}
+.tab:hover{color:#1D2D3E}
+.chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600}
+</style>
+</helmet>
+<div style="min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1D2D3E; background: #F5F6F7">
+
+  <header style="background: #FFFFFF; box-shadow: 0 1px 0 #E1E4E8; position: relative">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 10px 24px">
+      <div style="display: flex; align-items: center; gap: 12px; flex: 1 1 auto; min-width: 0">
+        <div aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: #0064D9; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px">MP</div>
+        <div style="display: flex; flex-direction: column; min-width: 0">
+          <span style="font-size: 16px; font-weight: 700">Mi Puesto</span>
+          <span style="font-size: 12px; color: #556B82">Uniformes Demo · Tienda principal</span>
+        </div>
+      </div>
+      <div style="flex: 2 1 320px; max-width: 520px; display: flex">
+        <label for="buscar" style="position: absolute; left: -9999px">Buscar apps y productos</label>
+        <div style="flex: 1; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; background: #EFF1F2; border-radius: 20px">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" style="stroke: #556B82; fill: none; stroke-width: 2; stroke-linecap: round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <input id="buscar" type="search" placeholder="Buscar apps, productos o clientes" style="flex: 1; border: 0; background: transparent; font: inherit; font-size: 14px; color: #1D2D3E; outline: none; min-width: 0">
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 auto; justify-content: flex-end">
+        <button type="button" aria-label="Notificaciones: 3 nuevas" style="position: relative; width: 44px; height: 44px; border: 0; border-radius: 22px; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" style="stroke: #1D2D3E; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2 8 2 8H4s2-2 2-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          <span style="position: absolute; top: 6px; right: 6px; min-width: 18px; height: 18px; border-radius: 9px; background: #AA0808; color: #FFFFFF; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">3</span>
+        </button>
+        <button type="button" aria-label="Mi perfil" style="width: 40px; height: 40px; border: 0; border-radius: 20px; background: #D9ECFF; color: #0050AE; font: inherit; font-weight: 700; font-size: 14px; cursor: pointer">DU</button>
+      </div>
+    </div>
+    <nav aria-label="Espacios" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 0 24px; overflow-x: auto">
+      <a href="#inicio" class="tab" aria-current="page" style="color: #0064D9; border-bottom-color: #0064D9">Inicio</a>
+      <a href="#vender" class="tab">Vender</a>
+      <a href="#inventario" class="tab">Inventario</a>
+      <a href="#abastecimiento" class="tab">Abastecimiento</a>
+      <a href="#clientes" class="tab">Clientes y cobros</a>
+      <a href="#analisis" class="tab">Análisis</a>
+      <a href="#admin" class="tab">Administración</a>
+    </nav>
+  </header>
+
+  <main id="inicio" style="max-width: 1360px; margin: 0 auto; padding: 32px 24px 64px; display: flex; flex-direction: column; gap: 40px; box-sizing: border-box">
+
+    <section style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+      <div>
+        <p style="margin: 0; font-size: 14px; color: #556B82">Viernes, 20 de noviembre</p>
+        <h1 style="margin: 4px 0 0; font-size: 28px; font-weight: 700; letter-spacing: -.01em">Buenos días</h1>
+      </div>
+      <a href="Reposicion.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #FFF3E6; border-radius: 12px; text-decoration: none; color: #7A3A00; font-size: 14px; font-weight: 500">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" style="stroke: #B44F00; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18h.01"></path></svg>
+        7 productos bajo su stock mínimo · Revisar reposición
+      </a>
+    </section>
+
+    <section id="vender" aria-labelledby="g-vender" style="display: flex; flex-direction: column; gap: 16px">
+      <h2 id="g-vender" class="grp">Vender</h2>
+      <div class="tiles">
+        <a href="VentaMovil.dc.html" class="tile" style="background: #0064D9; color: #FFFFFF; box-shadow: none">
+          <div><p class="tt" style="color: #FFFFFF">Nueva venta</p><p class="ts" style="color: #D9ECFF">Colegio o público</p></div>
+          <div class="tf">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="stroke: #FFFFFF; width: 36px; height: 36px"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 3h3l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 7H6"></path></svg>
+            <span style="font-size: 13px; font-weight: 600; color: #FFFFFF">Abrir</span>
+          </div>
+        </a>
+        <a href="#ventas-hoy" class="tile">
+          <div><p class="tt">Ventas de hoy</p><p class="ts">23 notas de venta</p></div>
+          <div class="tf"><span class="kpi" style="color: #256F3A">1,284<span class="unit">S/</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"></path><path d="M9 7h6M9 11h6M9 15h4"></path></svg></div>
+        </a>
+        <a href="#pedidos" class="tile">
+          <div><p class="tt">Pedidos pendientes</p><p class="ts">WhatsApp y colegio</p></div>
+          <div class="tf"><span class="kpi" style="color: #0064D9">4</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"></path></svg></div>
+        </a>
+        <a href="#caja" class="tile">
+          <div><p class="tt">Caja diaria</p><p class="ts">Abierta desde 8:05</p></div>
+          <div class="tf"><span class="chip" style="background: #E5F5EA; color: #256F3A">Abierta</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle><path d="M6 12h.01M18 12h.01"></path></svg></div>
+        </a>
+      </div>
+    </section>
+
+    <section id="inventario" aria-labelledby="g-inv" style="display: flex; flex-direction: column; gap: 16px">
+      <h2 id="g-inv" class="grp">Inventario</h2>
+      <div class="tiles">
+        <a href="Inventario.dc.html" class="tile">
+          <div><p class="tt">Productos y stock</p><p class="ts">Por talla y color</p></div>
+          <div class="tf"><span class="kpi">186<span class="unit">SKU</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3 8l9 5 9-5M12 13v8"></path></svg></div>
+        </a>
+        <a href="Reposicion.dc.html" class="tile">
+          <div><p class="tt">Stock mínimo</p><p class="ts">Aviso de reposición</p></div>
+          <div class="tf"><span class="kpi" style="color: #AA0808">7<span class="unit">alertas</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="stroke: #AA0808"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18h.01"></path></svg></div>
+        </a>
+        <a href="#movimientos" class="tile">
+          <div><p class="tt">Movimientos de stock</p><p class="ts">Entradas, salidas y ajustes</p></div>
+          <div class="tf"><span class="kpi">58<span class="unit">hoy</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"></path></svg></div>
+        </a>
+        <a href="#ajuste" class="tile">
+          <div><p class="tt">Ajustar stock</p><p class="ts">Conteo, merma o regalo</p></div>
+          <div class="tf"><span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"></path><circle cx="16" cy="6" r="2"></circle><circle cx="10" cy="12" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg></div>
+        </a>
+      </div>
+    </section>
+
+    <section id="abastecimiento" aria-labelledby="g-abs" style="display: flex; flex-direction: column; gap: 16px">
+      <h2 id="g-abs" class="grp">Abastecimiento</h2>
+      <div class="tiles">
+        <a href="#proveedores" class="tile">
+          <div><p class="tt">Proveedores</p><p class="ts">Telas, hilos, avíos</p></div>
+          <div class="tf"><span class="kpi">12</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 5h13v11H1zM14 9h4l4 4v3h-8z"></path><circle cx="5.5" cy="18.5" r="1.5"></circle><circle cx="17.5" cy="18.5" r="1.5"></circle></svg></div>
+        </a>
+        <a href="#ordenes-compra" class="tile">
+          <div><p class="tt">Órdenes de compra</p><p class="ts">Materia prima</p></div>
+          <div class="tf"><span class="kpi" style="color: #0064D9">3<span class="unit">abiertas</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 10h6M9 14h6"></path></svg></div>
+        </a>
+        <a href="#confeccion" class="tile">
+          <div><p class="tt">Órdenes de confección</p><p class="ts">Taller y bordado</p></div>
+          <div class="tf"><span class="kpi" style="color: #0064D9">2<span class="unit">en taller</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M8.1 8.1L20 20M8.1 15.9L20 4"></path></svg></div>
+        </a>
+      </div>
+    </section>
+
+    <section id="clientes" aria-labelledby="g-cli" style="display: flex; flex-direction: column; gap: 16px">
+      <h2 id="g-cli" class="grp">Clientes y cobros</h2>
+      <div class="tiles">
+        <a href="#clientes-app" class="tile">
+          <div><p class="tt">Clientes</p><p class="ts">Público y colegios</p></div>
+          <div class="tf"><span class="kpi">342</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 4.5a3.5 3.5 0 0 1 0 7M18 15c2.5.5 4 2.5 4 6"></path></svg></div>
+        </a>
+        <a href="#fiados" class="tile">
+          <div><p class="tt">Fiados por cobrar</p><p class="ts">9 clientes con saldo</p></div>
+          <div class="tf"><span class="kpi" style="color: #B44F00">2,340<span class="unit">S/</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12v4"></path><circle cx="16" cy="13.5" r="1.2"></circle></svg></div>
+        </a>
+        <a href="#precios" class="tile">
+          <div><p class="tt">Listas de precios</p><p class="ts">Colegio · Público · Mayor</p></div>
+          <div class="tf"><span class="kpi">3</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8l10 10-8 8L3 11z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg></div>
+        </a>
+      </div>
+    </section>
+
+    <section id="analisis" aria-labelledby="g-ana" style="display: flex; flex-direction: column; gap: 16px">
+      <h2 id="g-ana" class="grp">Análisis</h2>
+      <div class="tiles">
+        <a href="Dashboard.dc.html" class="tile tile-wide">
+          <div><p class="tt">Dashboard</p><p class="ts">Ventas y stock real · últimos 7 días</p></div>
+          <div class="tf" style="align-items: flex-end">
+            <span class="kpi">8,912<span class="unit">S/ semana</span></span>
+            <div aria-hidden="true" style="display: flex; align-items: flex-end; gap: 4px; height: 48px">
+              <span style="width: 10px; height: 22px; background: #9CC8F5; border-radius: 2px"></span>
+              <span style="width: 10px; height: 30px; background: #9CC8F5; border-radius: 2px"></span>
+              <span style="width: 10px; height: 18px; background: #9CC8F5; border-radius: 2px"></span>
+              <span style="width: 10px; height: 36px; background: #9CC8F5; border-radius: 2px"></span>
+              <span style="width: 10px; height: 41px; background: #9CC8F5; border-radius: 2px"></span>
+              <span style="width: 10px; height: 34px; background: #9CC8F5; border-radius: 2px"></span>
+              <span style="width: 10px; height: 46px; background: #0064D9; border-radius: 2px"></span>
+            </div>
+          </div>
+        </a>
+        <a href="#mas-vendidos" class="tile">
+          <div><p class="tt">Más vendidos</p><p class="ts">Top 5 de la semana</p></div>
+          <div class="tf"><span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"></path></svg></div>
+        </a>
+        <a href="#reportes" class="tile">
+          <div><p class="tt">Reportes</p><p class="ts">Exportar a Excel</p></div>
+          <div class="tf"><span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"></path><path d="M7 15v3M12 10v8M17 6v12"></path></svg></div>
+        </a>
+      </div>
+    </section>
+
+    <section id="admin" aria-labelledby="g-adm" style="display: flex; flex-direction: column; gap: 16px">
+      <h2 id="g-adm" class="grp">Administración</h2>
+      <div class="tiles">
+        <a href="#importar" class="tile">
+          <div><p class="tt">Importar desde Excel</p><p class="ts">Productos y clientes</p></div>
+          <div class="tf"><span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"></path></svg></div>
+        </a>
+        <a href="#usuarios" class="tile">
+          <div><p class="tt">Usuarios y roles</p><p class="ts">Dueño y vendedores</p></div>
+          <div class="tf"><span class="kpi">3</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"></path></svg></div>
+        </a>
+        <a href="Modulos.dc.html" class="tile">
+          <div><p class="tt">Módulos activos</p><p class="ts">Paquete: Ropa y confección</p></div>
+          <div class="tf"><span class="kpi">12<span class="unit">de 14</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></div>
+        </a>
+        <a href="#ajustes" class="tile">
+          <div><p class="tt">Ajustes del negocio</p><p class="ts">Datos, moneda, nota de venta</p></div>
+          <div class="tf"><span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1320}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

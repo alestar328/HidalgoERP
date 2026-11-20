@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<title>Dashboard de ventas y stock</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F6F7}
+a{color:#0064D9}a:hover{color:#0050AE}
+.card{background:#FFFFFF;border-radius:16px;padding:20px;box-shadow:0 0 0 1px rgba(34,53,72,.08);display:flex;flex-direction:column;gap:16px;box-sizing:border-box;min-width:0}
+.ct{margin:0;font-size:16px;font-weight:600}
+.cs{margin:2px 0 0;font-size:13px;color:#556B82}
+.kl{margin:0;font-size:13px;color:#556B82}
+.kv{margin:6px 0 0;font-size:30px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kd{margin:4px 0 0;font-size:13px;color:#556B82}
+.bar{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;flex:1;min-width:0}
+.bv{font-size:12px;font-weight:600;color:#31475E;font-variant-numeric:tabular-nums}
+.bl{font-size:12px;color:#556B82}
+.hr{display:grid;grid-template-columns:88px minmax(0,1fr) 80px;align-items:center;gap:12px;font-size:14px}
+.track{height:12px;background:#EFF1F2;border-radius:6px;overflow:hidden}
+.fill{height:12px;background:#0064D9;border-radius:6px}
+</style>
+</helmet>
+<div style="min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1D2D3E">
+
+  <header style="background: #FFFFFF; box-shadow: 0 1px 0 #E1E4E8; padding: 10px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+    <a href="Main.dc.html" aria-label="Volver al launchpad" style="width: 40px; height: 40px; border-radius: 10px; background: #0064D9; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; text-decoration: none">MP</a>
+    <nav aria-label="Ruta" style="font-size: 14px; display: flex; gap: 8px; align-items: center; color: #556B82">
+      <a href="Main.dc.html">Inicio</a><span aria-hidden="true">/</span><span aria-current="page" style="color: #1D2D3E; font-weight: 600">Dashboard</span>
+    </nav>
+  </header>
+
+  <main style="max-width: 1360px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
+
+    <section style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+      <div>
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700">Ventas y stock real</h1>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #556B82">Se actualiza con cada venta registrada · Últimos 7 días</p>
+      </div>
+      <div role="group" aria-label="Periodo" style="display: flex; gap: 4px; padding: 4px; background: #EFF1F2; border-radius: 12px">
+        <button type="button" aria-pressed="false" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: transparent; font: inherit; font-size: 14px; font-weight: 600; color: #556B82; cursor: pointer">Hoy</button>
+        <button type="button" aria-pressed="true" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: #FFFFFF; font: inherit; font-size: 14px; font-weight: 600; color: #0064D9; cursor: pointer; box-shadow: 0 1px 3px rgba(34,53,72,.15)">7 días</button>
+        <button type="button" aria-pressed="false" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: transparent; font: inherit; font-size: 14px; font-weight: 600; color: #556B82; cursor: pointer">Mes</button>
+      </div>
+    </section>
+
+    <section aria-label="Indicadores" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+      <div class="card" style="gap: 0">
+        <p class="kl">Ventas de la semana</p>
+        <p class="kv">S/ 8,912.00</p>
+        <p class="kd">161 notas de venta</p>
+      </div>
+      <div class="card" style="gap: 0">
+        <p class="kl">Ventas de hoy</p>
+        <p class="kv">S/ 1,284.50</p>
+        <p class="kd">23 notas · caja abierta</p>
+      </div>
+      <div class="card" style="gap: 0">
+        <p class="kl">Ticket promedio</p>
+        <p class="kv">S/ 55.35</p>
+        <p class="kd">Semana actual</p>
+      </div>
+      <a href="Reposicion.dc.html" class="card" style="gap: 0; text-decoration: none; color: #1D2D3E">
+        <p class="kl">Productos por reponer</p>
+        <p class="kv" style="color: #AA0808">7</p>
+        <p class="kd">2 agotados · 5 bajo mínimo</p>
+      </a>
+    </section>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px">
+
+      <section class="card" aria-labelledby="c-dias" style="grid-column: span 1">
+        <div><h2 id="c-dias" class="ct">Ventas por día</h2><p class="cs">Soles, del sábado 14 al viernes 20</p></div>
+        <div role="img" aria-label="Ventas por día: sábado 1,120; domingo 1,480; lunes 860; martes 1,310; miércoles 1,520; jueves 1,338; hoy 1,284" style="display: flex; align-items: flex-end; gap: 12px; height: 230px; border-bottom: 1px solid #E1E4E8; padding-bottom: 0">
+          <div class="bar"><span class="bv">1,120</span><span style="width: 100%; max-width: 44px; height: 133px; background: #9CC8F5; border-radius: 6px 6px 0 0"></span></div>
+          <div class="bar"><span class="bv">1,480</span><span style="width: 100%; max-width: 44px; height: 175px; background: #9CC8F5; border-radius: 6px 6px 0 0"></span></div>
+          <div class="bar"><span class="bv">860</span><span style="width: 100%; max-width: 44px; height: 102px; background: #9CC8F5; border-radius: 6px 6px 0 0"></span></div>
+          <div class="bar"><span class="bv">1,310</span><span style="width: 100%; max-width: 44px; height: 155px; background: #9CC8F5; border-radius: 6px 6px 0 0"></span></div>
+          <div class="bar"><span class="bv">1,520</span><span style="width: 100%; max-width: 44px; height: 180px; background: #9CC8F5; border-radius: 6px 6px 0 0"></span></div>
+          <div class="bar"><span class="bv">1,338</span><span style="width: 100%; max-width: 44px; height: 158px; background: #9CC8F5; border-radius: 6px 6px 0 0"></span></div>
+          <div class="bar"><span class="bv" style="color: #0050AE">1,284</span><span style="width: 100%; max-width: 44px; height: 152px; background: #0064D9; border-radius: 6px 6px 0 0"></span></div>
+        </div>
+        <div aria-hidden="true" style="display: flex; gap: 12px; margin-top: -8px">
+          <span class="bl" style="flex: 1; text-align: center">Sáb</span>
+          <span class="bl" style="flex: 1; text-align: center">Dom</span>
+          <span class="bl" style="flex: 1; text-align: center">Lun</span>
+          <span class="bl" style="flex: 1; text-align: center">Mar</span>
+          <span class="bl" style="flex: 1; text-align: center">Mié</span>
+          <span class="bl" style="flex: 1; text-align: center">Jue</span>
+          <span class="bl" style="flex: 1; text-align: center; font-weight: 700; color: #0050AE">Hoy</span>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="c-canal">
+        <div><h2 id="c-canal" class="ct">Colegio y público</h2><p class="cs">Ventas de la semana por lista de precios</p></div>
+        <div role="img" aria-label="Colegio 58 por ciento, público 42 por ciento" style="display: flex; height: 40px; border-radius: 10px; overflow: hidden; gap: 3px">
+          <span style="width: 58%; background: #0064D9"></span>
+          <span style="width: 42%; background: #9CC8F5"></span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+          <div style="display: flex; gap: 10px; align-items: flex-start">
+            <span aria-hidden="true" style="width: 12px; height: 12px; border-radius: 3px; background: #0064D9; margin-top: 4px"></span>
+            <div><p style="margin: 0; font-size: 14px; font-weight: 600">Colegio · 58%</p><p style="margin: 2px 0 0; font-size: 22px; font-weight: 600">S/ 5,170.00</p></div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start">
+            <span aria-hidden="true" style="width: 12px; height: 12px; border-radius: 3px; background: #9CC8F5; margin-top: 4px"></span>
+            <div><p style="margin: 0; font-size: 14px; font-weight: 600">Público · 42%</p><p style="margin: 2px 0 0; font-size: 22px; font-weight: 600">S/ 3,742.00</p></div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid #EEF0F2; padding-top: 16px; display: flex; flex-direction: column; gap: 10px">
+          <h3 style="margin: 0; font-size: 14px; font-weight: 600">Métodos de pago</h3>
+          <div class="hr"><span>Yape</span><div class="track"><div class="fill" style="width: 100%"></div></div><span style="text-align: right; font-variant-numeric: tabular-nums">S/ 3,480</span></div>
+          <div class="hr"><span>Efectivo</span><div class="track"><div class="fill" style="width: 85%"></div></div><span style="text-align: right; font-variant-numeric: tabular-nums">S/ 2,940</span></div>
+          <div class="hr"><span>Plin</span><div class="track"><div class="fill" style="width: 31%"></div></div><span style="text-align: right; font-variant-numeric: tabular-nums">S/ 1,070</span></div>
+          <div class="hr"><span>Tarjeta</span><div class="track"><div class="fill" style="width: 26%"></div></div><span style="text-align: right; font-variant-numeric: tabular-nums">S/ 890</span></div>
+          <div class="hr"><span>Fiado</span><div class="track"><div class="fill" style="width: 15%"></div></div><span style="text-align: right; font-variant-numeric: tabular-nums">S/ 532</span></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="c-top">
+        <div><h2 id="c-top" class="ct">Más vendidos</h2><p class="cs">Unidades de la semana, todas las tallas</p></div>
+        <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+          <li class="hr" style="grid-template-columns: 24px minmax(0, 1fr) 64px"><span style="font-weight: 700; color: #556B82">1</span><div><p style="margin: 0 0 6px; font-weight: 600">Polo educación física</p><div class="track"><div class="fill" style="width: 100%"></div></div></div><span style="text-align: right; font-weight: 600">64 und</span></li>
+          <li class="hr" style="grid-template-columns: 24px minmax(0, 1fr) 64px"><span style="font-weight: 700; color: #556B82">2</span><div><p style="margin: 0 0 6px; font-weight: 600">Short deportivo</p><div class="track"><div class="fill" style="width: 64%"></div></div></div><span style="text-align: right; font-weight: 600">41 und</span></li>
+          <li class="hr" style="grid-template-columns: 24px minmax(0, 1fr) 64px"><span style="font-weight: 700; color: #556B82">3</span><div><p style="margin: 0 0 6px; font-weight: 600">Corbata con insignia</p><div class="track"><div class="fill" style="width: 34%"></div></div></div><span style="text-align: right; font-weight: 600">22 und</span></li>
+          <li class="hr" style="grid-template-columns: 24px minmax(0, 1fr) 64px"><span style="font-weight: 700; color: #556B82">4</span><div><p style="margin: 0 0 6px; font-weight: 600">Buzo completo</p><div class="track"><div class="fill" style="width: 28%"></div></div></div><span style="text-align: right; font-weight: 600">18 und</span></li>
+          <li class="hr" style="grid-template-columns: 24px minmax(0, 1fr) 64px"><span style="font-weight: 700; color: #556B82">5</span><div><p style="margin: 0 0 6px; font-weight: 600">Chompa bordada</p><div class="track"><div class="fill" style="width: 23%"></div></div></div><span style="text-align: right; font-weight: 600">15 und</span></li>
+        </ol>
+      </section>
+
+      <section class="card" aria-labelledby="c-stock">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px">
+          <div><h2 id="c-stock" class="ct">Stock real</h2><p class="cs">186 productos activos</p></div>
+          <a href="Inventario.dc.html" style="font-size: 14px; font-weight: 600">Ver inventario</a>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+          <div style="background: #E5F5EA; border-radius: 12px; padding: 14px"><p style="margin: 0; font-size: 13px; color: #1E5A2F">Disponibles</p><p style="margin: 4px 0 0; font-size: 26px; font-weight: 600; color: #1E5A2F">179</p></div>
+          <a href="Reposicion.dc.html" style="background: #FFF3E6; border-radius: 12px; padding: 14px; text-decoration: none"><p style="margin: 0; font-size: 13px; color: #7A3A00">Bajo mínimo</p><p style="margin: 4px 0 0; font-size: 26px; font-weight: 600; color: #7A3A00">5</p></a>
+          <a href="Reposicion.dc.html" style="background: #FFEAEA; border-radius: 12px; padding: 14px; text-decoration: none"><p style="margin: 0; font-size: 13px; color: #8F0707">Agotados</p><p style="margin: 4px 0 0; font-size: 26px; font-weight: 600; color: #8F0707">2</p></a>
+        </div>
+        <div style="border-top: 1px solid #EEF0F2; padding-top: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+          <div style="display: flex; justify-content: space-between"><span style="color: #556B82">En taller (confección)</span><span style="font-weight: 600">2 órdenes · 60 prendas</span></div>
+          <div style="display: flex; justify-content: space-between"><span style="color: #556B82">Compras por llegar</span><span style="font-weight: 600">3 órdenes</span></div>
+          <div style="display: flex; justify-content: space-between"><span style="color: #556B82">Fiados por cobrar</span><span style="font-weight: 600; color: #8A3D00">S/ 2,340.00</span></div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

@@ -32,7 +32,7 @@ async function loadMembership(userId: string): Promise<Membership | null> {
   const query = () =>
     supabase
       .from('memberships')
-      .select('role, display_name, organizations(id, name, phone, address)')
+      .select('role, display_name, organizations(id, name, phone, address, business_type)')
       .eq('user_id', userId)
       .order('created_at')
       .limit(1);

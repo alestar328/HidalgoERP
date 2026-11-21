@@ -66,7 +66,7 @@ export function ProductsPage() {
         title="Productos"
         actions={
           isOwner && (
-            <Button design="Emphasized" icon="add" onClick={() => navigate('/productos/nuevo')}>
+            <Button design="Emphasized" icon="add" data-tour="products-new" onClick={() => navigate('/productos/nuevo')}>
               Nuevo
             </Button>
           )
@@ -75,6 +75,7 @@ export function ProductsPage() {
 
       <div className="toolbar">
         <Input
+          data-tour="products-search"
           type="Search"
           placeholder="Buscar por nombre o código"
           accessibleName="Buscar producto"
@@ -86,7 +87,7 @@ export function ProductsPage() {
             setLimit(PAGE_SIZE);
           }}
         />
-        <div className="chips" role="group" aria-label="Filtrar productos">
+        <div className="chips" role="group" aria-label="Filtrar productos" data-tour="products-filters">
           {FILTERS.filter((f) => !f.ownerOnly || isOwner).map((f) => (
             <button
               key={f.key}
@@ -131,7 +132,7 @@ export function ProductsPage() {
 
       {visible.length > 0 && (
         <div className="content" style={{ paddingTop: '0.25rem' }}>
-          <div className="card card--flush">
+          <div className="card card--flush" data-tour="products-list">
             <ul className="list">
               {visible.slice(0, limit).map((g) => {
                 const p = g.product;

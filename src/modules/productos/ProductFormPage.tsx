@@ -247,7 +247,7 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
           </MessageStrip>
         )}
 
-        <section className="card stack">
+        <section className="card stack" data-tour="form-basic">
           {isVariant ? (
             <TextField
               label="Variante (talla, color)"
@@ -304,7 +304,7 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
           )}
         </section>
 
-        <section className="card stack">
+        <section className="card stack" data-tour="form-prices">
           <h2>Precios</h2>
           <TextField
             label="Precio por menor (S/)"
@@ -357,7 +357,7 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
         </section>
 
         {!hasVariants && (
-          <section className="card stack">
+          <section className="card stack" data-tour="form-stock">
             <h2>Stock</h2>
             {editing ? (
               <p className="muted">
@@ -393,7 +393,7 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
           </section>
         )}
 
-        <section className="card stack">
+        <section className="card stack" data-tour="form-codes">
           <h2>Códigos (opcional)</h2>
           <TextField
             label="Código / SKU"
@@ -412,7 +412,7 @@ export function ProductFormPage({ variantOf }: { variantOf?: boolean }) {
           />
         </section>
 
-        <Button design="Emphasized" className="btn-big" type="Submit" disabled={busy}>
+        <Button design="Emphasized" className="btn-big" type="Submit" disabled={busy} data-tour="form-save">
           {busy ? 'Guardando…' : 'Guardar'}
         </Button>
       </form>

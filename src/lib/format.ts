@@ -35,3 +35,10 @@ const dateTimeFmt = new Intl.DateTimeFormat(APP.locale, {
 export function formatDateTime(iso: string): string {
   return dateTimeFmt.format(new Date(iso));
 }
+
+const dateFmt = new Intl.DateTimeFormat(APP.locale, { day: 'numeric', month: 'short', timeZone: APP.timeZone });
+
+/** "21 nov." */
+export function formatDate(iso: string): string {
+  return dateFmt.format(new Date(iso));
+}

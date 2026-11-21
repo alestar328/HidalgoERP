@@ -63,7 +63,7 @@ function ReorderGroup({ title, hint, messageTitle, items }: GroupProps) {
           ))}
         </ul>
       </div>
-      <Button icon="share-2" className="btn-block" onClick={share}>
+      <Button icon="share-2" className="btn-block" onClick={share} data-tour="reorder-share">
         Enviar lista por WhatsApp
       </Button>
     </section>
@@ -87,7 +87,7 @@ export function ReposicionPage() {
   return (
     <div className="page">
       <PageHeader title="Reposición" back="/" />
-      <div className="content">
+      <div className="content" data-tour="reorder">
         {products.isPending && <BusyIndicator active delay={200} style={{ margin: '2rem auto' }} />}
         {products.isError && (
           <MessageStrip design="Negative" hideCloseButton>

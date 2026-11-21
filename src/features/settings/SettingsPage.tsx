@@ -117,7 +117,7 @@ export function SettingsPage() {
     <div className="page">
       <PageHeader title="Mi negocio" back="/mas" />
       <div className="content">
-        <form className="card stack" onSubmit={saveOrg} noValidate>
+        <form className="card stack" onSubmit={saveOrg} noValidate data-tour="settings-org">
           <h2>Datos del negocio</h2>
           {orgError && (
             <MessageStrip design="Negative" hideCloseButton>
@@ -138,7 +138,7 @@ export function SettingsPage() {
           </Button>
         </form>
 
-        <section className="card stack">
+        <section className="card stack" data-tour="settings-team">
           <h2>Vendedores</h2>
           <p className="muted">
             Un vendedor registra ventas y consulta el stock. No ve costos ni puede borrar o anular.
@@ -203,7 +203,7 @@ export function SettingsPage() {
             </ul>
           )}
 
-          <form className="stack" onSubmit={invite} noValidate>
+          <form className="stack" onSubmit={invite} noValidate data-tour="settings-invite">
             <TextField
               label="Invitar vendedor por correo"
               type="Email"

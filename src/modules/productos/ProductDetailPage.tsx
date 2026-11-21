@@ -108,7 +108,7 @@ export function ProductDetailPage() {
           </MessageStrip>
         )}
 
-        <section className="card">
+        <section className="card" data-tour="stock-card">
           <h2>{hasVariants ? 'Stock total' : 'Stock'}</h2>
           <div className="row">
             <div className="grow">
@@ -120,7 +120,7 @@ export function ProductDetailPage() {
             </div>
           </div>
           {isOwner && !hasVariants && (
-            <div className="two-col" style={{ marginTop: '1rem' }}>
+            <div className="two-col" style={{ marginTop: '1rem' }} data-tour="stock-actions">
               <Button design="Emphasized" icon="add" onClick={() => setDialog('entrada')}>
                 Entrada
               </Button>
@@ -180,7 +180,7 @@ export function ProductDetailPage() {
         </section>
 
         {!product.parent_id && (hasVariants || (isOwner && isActive('variantes'))) && (
-          <section className="stack" style={{ gap: '0.5rem' }}>
+          <section className="stack" style={{ gap: '0.5rem' }} data-tour="variants">
             <p className="section-title">Variantes (talla, color)</p>
             {hasVariants && (
               <div className="card card--flush">
@@ -223,7 +223,7 @@ export function ProductDetailPage() {
         )}
 
         {!hasVariants && (
-          <section className="stack" style={{ gap: '0.5rem' }}>
+          <section className="stack" style={{ gap: '0.5rem' }} data-tour="stock-movements">
             <p className="section-title">Últimos movimientos</p>
             {movements.isPending && <BusyIndicator active delay={200} />}
             {movements.isError && <p className="muted">{errorMessage(movements.error)}</p>}
@@ -259,7 +259,13 @@ export function ProductDetailPage() {
         )}
 
         {isOwner && (
-          <Button design={product.active ? 'Negative' : 'Default'} className="btn-block" disabled={busy} onClick={() => void toggleActive()}>
+          <Button
+            design={product.active ? 'Negative' : 'Default'}
+            className="btn-block"
+            disabled={busy}
+            data-tour="product-archive"
+            onClick={() => void toggleActive()}
+          >
             {product.active ? 'Archivar producto' : 'Volver a activar'}
           </Button>
         )}

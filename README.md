@@ -20,7 +20,7 @@ npm install
 ## 2. Crear el proyecto en Supabase
 
 1. En supabase.com → **New project**. Elige un nombre, una contraseña de base de datos (guárdala) y la región **South America (São Paulo)**, la más cercana a Lima.
-2. **Aplicar las migraciones.** Opción simple: abre **SQL Editor**, pega el contenido de cada archivo de `supabase/migrations/` **en orden** (`0001_core.sql`, `0002_products_stock.sql`, `0003_modules.sql`) y pulsa **Run** en cada uno.
+2. **Aplicar las migraciones.** Opción simple: abre **SQL Editor**, pega el contenido de cada archivo de `supabase/migrations/` **en orden** (`0001_core.sql`, `0002_products_stock.sql`, `0003_modules.sql`, `0004_tutorial_progress.sql`) y pulsa **Run** en cada uno.
    Opción con CLI (útil más adelante, cuando haya más migraciones):
    ```bash
    npx supabase login

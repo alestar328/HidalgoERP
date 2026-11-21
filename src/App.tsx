@@ -13,6 +13,10 @@ import { ModulesProvider } from './modules/ModulesProvider';
 import { MODULE_UI } from './modules/registry';
 import { Launchpad } from './shell/Launchpad';
 import { ModuleGate } from './shell/ModuleGate';
+import { lazyPage } from './modules/lazy';
+import { TutorialProvider } from './tutorial/TutorialProvider';
+
+const HelpCenterPage = lazyPage(() => import('./tutorial/HelpCenterPage'), 'HelpCenterPage');
 
 /** Todas las rutas de todos los módulos; ModuleGate decide si se puede entrar según el negocio. */
 const moduleRoutes = MODULE_IDS.flatMap((id) =>
@@ -82,14 +86,17 @@ export function App() {
 
   return (
     <ModulesProvider>
-      <Routes>
-        <Route element={<AppShell />}>
-          <Route index element={<Launchpad />} />
-          {moduleRoutes}
-          <Route path="mas" element={<MorePage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
+      <TutorialProvider>
+        <Routes>
+          <Route element={<AppShell />}>
+            <Route index element={<Launchpad />} />
+            {moduleRoutes}
+            <Route path="mas" element={<MorePage />} />
+            <Route path="ayuda" element={<HelpCenterPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+      </TutorialProvider>
     </ModulesProvider>
   );
 }

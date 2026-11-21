@@ -92,3 +92,63 @@ de stock; Reposición podrá crearlas directamente).
 - Supabase Auth → URL Configuration: usar el dominio estable `https://hidalgoerp.vercel.app` (Site URL) y `https://hidalgoerp.vercel.app/**` (Redirect URLs), más `http://localhost:5173/**` para local. No usar la URL del deployment (`hidalgoerp-<hash>-ales-projects-76f6085a.vercel.app`): cambia en cada push.
 - Ojo: `LoginPage.tsx` usa `emailRedirectTo: window.location.origin`, así que hay que entrar siempre por `hidalgoerp.vercel.app` para que el enlace mágico vuelva a una URL permitida.
 - NO verificado: ingreso completo con enlace mágico en producción. Falta que el usuario lo pruebe.
+
+## 2026-11-21 — Tutoriales y recorridos guiados
+
+**Pedido del usuario:** un menú de tutorial como en otros ERP, para guiarse la primera vez o cada vez que se consulte cómo
+hacer cada función.
+
+**Hecho**
+
+- `src/tutorial/guides.ts`: 8 guías como datos (bienvenida, buscar productos, crear producto, entradas y ajustes de
+  stock, variantes, reposición, módulos, negocio y vendedores). Se filtran por módulo activo y por rol; los pasos de
+  módulos apagados se saltan (p. ej. "precio por mayor" solo con `precios`).
+- Recorrido guiado (`TourOverlay`): oscurece la pantalla, resalta el elemento marcado con `data-tour="…"`, abre la ruta
+  de cada paso, tarjeta con Anterior/Siguiente/Salir y teclado (Esc, flechas). Pasos interactivos (`waitFor`): "toca un
+  producto" y avanza solo al abrir la ficha. Si el elemento no está (lista vacía), la tarjeta va al centro.
+- Primera vez: diálogo "Bienvenido" en el inicio (se carga solo si hace falta). Botón **?** en todas las cabeceras y en el
+  inicio → `/ayuda?desde=<pantalla>`: centro de tutoriales con "Para la pantalla donde estabas", guías por espacio, ✓ en
+  las vistas, progreso, "Próximamente" para módulos en Pronto. También en Más › Tutoriales y ayuda.
+- Progreso en `localStorage` por usuario (`mipuesto:tutorial:<userId>`): es por equipo; en otro celular vuelve a ofrecer
+  la bienvenida. Si se quiere que siga al usuario, pasar a una columna en Supabase.
+- Carga inicial: +21 kB de JS (~6 kB gzip).
+
+**Verificado / no verificado**
+
+- Verificado: `tsc`, `vite build`, tests de dominio (9 nuevos en `tests/domain/guides.test.ts`, incluido que cada
+  `target` existe como `data-tour` en el código).
+- Verificado en navegador (escritorio) con Supabase simulado: diálogo de bienvenida, recorrido completo de 7 pasos,
+  centro de ayuda con contexto, guía de entradas de stock con paso interactivo, guía de crear producto.
+  Corregido en la prueba: el paso interactivo volvía a /productos (el `navigate` de React Router cambia en cada
+  navegación) y la pantalla quedaba 2,5 s sin tarjeta si el elemento no existía.
+- NO verificado: vista en ancho de celular (la tarjeta se acopla arriba/abajo por código, sin probar en pantalla).
+
+**Regla para lo que viene:** cada módulo nuevo (ventas, caja…) agrega su guía en `guides.ts` y sus `data-tour`.
+
+## 2026-11-21 — Historial de tutoriales en la base
+
+**Pedido del usuario:** que el progreso de los tutoriales siga a la cuenta (no al equipo) y sirva de historial. Se hizo
+la versión completa: progreso sincronizado + vista del dueño con el avance de cada vendedor.
+
+**Hecho**
+
+- `supabase/migrations/0004_tutorial_progress.sql`: tabla `tutorial_progress` (negocio, usuario, guía, primera y última
+  vez, veces) y `memberships.tutorial_welcome_at`. Solo lectura directa (cada uno lo suyo; el dueño, todo su negocio).
+  Se escribe con RPC: `complete_guide`, `sync_tutorial_progress` (sube lo guardado sin conexión, sin contar repeticiones)
+  y `set_tutorial_welcome`.
+- App: el progreso se lee de la base y se une con la copia del navegador (sirve sin conexión y si la migración aún no
+  está aplicada: en ese caso funciona como antes, solo local). Al cargar, lo que solo estaba en el equipo se sube.
+  La bienvenida espera a leer la base para no salir de más en un equipo nuevo.
+- Tutoriales: cada guía vista muestra "Vista el 21 nov.". Para el dueño, sección **Avance de tu equipo**: por persona,
+  "n de m guías" (según su rol y las apps activas), barra, última fecha y detalle por guía (fecha, veces, pendiente).
+- El botón "Marcar todo como no visto" pasó a "Volver a mostrar la bienvenida al entrar": ya no borra historial (el dueño
+  lo usa para seguir a su equipo).
+- README: la 0004 en la lista de migraciones.
+
+**Verificado / no verificado**
+
+- Verificado: `tsc`, `vite build`, 81 tests (8 de base: RLS dueño/vendedor/otro negocio, sin escritura directa, ids
+  inválidos, repeticiones, sincronización, bienvenida sin borrar historial; 3 de la unión equipo+base).
+- Verificado en navegador con Supabase simulado: subida del progreso local al cargar, terminar una guía llama a
+  `complete_guide` y aparece "Vista el…", vista del equipo con detalle por vendedor.
+- NO verificado contra Supabase real: falta que el usuario aplique `0004_tutorial_progress.sql` (y la 0003 si no lo hizo).

@@ -27,3 +27,7 @@ import '@ui5/webcomponents-icons/dist/bar-chart.js';
 import '@ui5/webcomponents-icons/dist/shipping-status.js';
 import '@ui5/webcomponents-icons/dist/request.js';
 import '@ui5/webcomponents-icons/dist/factory.js';
+import '@ui5/webcomponents-icons/dist/sys-help.js';
+import '@ui5/webcomponents-icons/dist/media-play.js';
+import '@ui5/webcomponents-icons/dist/accept.js';
+import '@ui5/webcomponents-icons/dist/lightbulb.js';

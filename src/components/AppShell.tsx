@@ -19,7 +19,7 @@ export function AppShell() {
   return (
     <div className="app">
       {modulesLoading ? loading : <Suspense fallback={loading}><Outlet /></Suspense>}
-      <nav className="bottom-nav" aria-label="Principal">
+      <nav className="bottom-nav" aria-label="Principal" data-tour="nav">
         <div className="bottom-nav__inner" style={{ gridTemplateColumns: `repeat(${items.length}, 1fr)` }}>
           {items.map((item) =>
             item.emphasized ? (

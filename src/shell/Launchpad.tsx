@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Link } from 'react-router';
 import { Icon } from '@ui5/webcomponents-react';
 import { APP } from '../config/app';
@@ -7,6 +8,12 @@ import { useModules } from '../modules/ModulesProvider';
 import { visibleTiles } from '../modules/registry';
 import { useStockAlerts } from '../modules/reposicion/module';
 import { Tile } from './Tile';
+import { HelpButton } from '../components/PageHeader';
+import { lazyPage } from '../modules/lazy';
+import { useTutorial } from '../tutorial/TutorialProvider';
+
+// Solo se descarga la primera vez (el diálogo de UI5 pesa en el celular).
+const WelcomeDialog = lazyPage(() => import('../tutorial/WelcomeDialog'), 'WelcomeDialog');
 
 const todayFmt = new Intl.DateTimeFormat(APP.locale, { weekday: 'long', day: 'numeric', month: 'long', timeZone: APP.timeZone });
 
@@ -24,7 +31,7 @@ function StockAlert({ toReposicion }: { toReposicion: boolean }) {
   const n = alerts.low + alerts.out;
   if (n === 0) return null;
   return (
-    <Link className="lp-alert" to={toReposicion ? '/reposicion' : '/productos?ver=bajo'}>
+    <Link className="lp-alert" data-tour="lp-alert" to={toReposicion ? '/reposicion' : '/productos?ver=bajo'}>
       <Icon name="alert" aria-hidden="true" />
       <span className="grow">
         {n === 1 ? '1 producto' : `${n} productos`} {alerts.out > 0 ? `(${alerts.out} agotados)` : ''} en su stock mínimo
@@ -38,6 +45,7 @@ function StockAlert({ toReposicion }: { toReposicion: boolean }) {
 export function Launchpad() {
   const { organization, displayName, isOwner } = useShop();
   const { active, isActive, businessType } = useModules();
+  const { progress, ready } = useTutorial();
   const tiles = visibleTiles(active, isOwner);
   const spaces = SPACES.map((s) => ({ ...s, tiles: tiles.filter((t) => MODULES[t.module].space === s.id) })).filter(
     (s) => s.tiles.length > 0,
@@ -45,7 +53,7 @@ export function Launchpad() {
 
   return (
     <div className="page page--wide">
-      <header className="lp-shell">
+      <header className="lp-shell" data-tour="lp-shell">
         <span className="lp-shell__logo" aria-hidden="true">
           {APP.name
             .split(' ')
@@ -60,6 +68,7 @@ export function Launchpad() {
             {APP.name} · {BUSINESS_TYPES[businessType].title}
           </span>
         </span>
+        <HelpButton />
       </header>
 
       <nav className="lp-spaces" aria-label="Espacios">
@@ -81,19 +90,26 @@ export function Launchpad() {
 
         <StockAlert toReposicion={isActive('reposicion')} />
 
-        {spaces.map((s) => (
-          <section key={s.id} id={`espacio-${s.id}`} className="lp-group" aria-labelledby={`t-${s.id}`}>
-            <h2 id={`t-${s.id}`} className="lp-group__title">
-              {s.title}
-            </h2>
-            <div className="lp-tiles">
-              {s.tiles.map((t) => (
-                <Tile key={`${t.module}-${t.id}`} tile={t} />
-              ))}
-            </div>
-          </section>
-        ))}
+        <div className="lp-apps" data-tour="lp-apps">
+          {spaces.map((s) => (
+            <section key={s.id} id={`espacio-${s.id}`} className="lp-group" aria-labelledby={`t-${s.id}`}>
+              <h2 id={`t-${s.id}`} className="lp-group__title">
+                {s.title}
+              </h2>
+              <div className="lp-tiles">
+                {s.tiles.map((t) => (
+                  <Tile key={`${t.module}-${t.id}`} tile={t} />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
+      {ready && !progress.welcomeSeen && (
+        <Suspense fallback={null}>
+          <WelcomeDialog />
+        </Suspense>
+      )}
     </div>
   );
 }

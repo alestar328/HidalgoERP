@@ -114,7 +114,7 @@ export function ModulesPage() {
           </MessageStrip>
         )}
 
-        <section className="card stack" aria-labelledby="rubro-title">
+        <section className="card stack" aria-labelledby="rubro-title" data-tour="modules-type">
           <h2 id="rubro-title">Tipo de negocio</h2>
           <div className="chips chips--wrap" role="group" aria-label="Tipo de negocio">
             {BUSINESS_TYPE_IDS.map((t) => (
@@ -146,7 +146,7 @@ export function ModulesPage() {
           </ul>
         </section>
 
-        <section className="card stack" aria-labelledby="opt-title">
+        <section className="card stack" aria-labelledby="opt-title" data-tour="modules-optional">
           <h2 id="opt-title">
             Opcionales · {OPTIONAL_MODULES.filter((id) => active.has(id)).length} de {OPTIONAL_MODULES.length} activos
           </h2>
@@ -163,7 +163,7 @@ export function ModulesPage() {
           </ul>
         </section>
 
-        <section className="card stack" aria-labelledby="pack-title">
+        <section className="card stack" aria-labelledby="pack-title" data-tour="modules-packs">
           <h2 id="pack-title">Paquetes por rubro</h2>
           <p className="muted">Lo que viene encendido al crear el negocio. El núcleo está en todos.</p>
           <div className="table-scroll">
